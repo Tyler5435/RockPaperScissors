@@ -1,17 +1,25 @@
 import random
 
-possibleChoices = ["rock", "paper", "scissors"]
+# Simple Rock-Paper-Scissors game implementation
+# TODO: Consider refactoring to a Game class and avoid module-level globals
 
+possibleChoices = ["rock", "paper", "scissors"]  # available moves
+
+# Counters for tracking results across rounds
 draws = 0
 computerWins = 0
 playerWins = 0
 
+
 def main():
+    # Entry point: show rules, run the game, then display results
     gameRules()
     playGame()
     gameResults()
 
+
 def gameRules():
+    # Print the game rules and pause until the user is ready
     print('Rock, Paper, Scissors Rules')
     print('--------------------------------------------------')
     print('1. Each game consists of three rounds.')
@@ -27,9 +35,11 @@ def gameRules():
     # Pause until the player presses Enter.
     input('Press Enter to start the game...')
 
+
 def playGame():
+    # Play three rounds against the computer
     for i in range(3):
-        computerChoice = random.choice(possibleChoices)
+        computerChoice = random.choice(possibleChoices)  # computer picks at random
 
         print()
         print('Round ' + str(i + 1) + ':')
@@ -37,6 +47,7 @@ def playGame():
 
         isValid = False
 
+        # Repeat until the player provides a valid numeric choice
         while not isValid:
             try:
                 userInput = int(
@@ -46,11 +57,14 @@ def playGame():
                 if 1 <= userInput <= 3:
                     isValid = True
                 else:
+                    # Input number out of range
                     print('Invalid input. Please enter a number between 1 and 3.')
 
             except ValueError:
+                # Non-integer input
                 print('ERROR: Invalid input. Please enter a number between 1 and 3.')
 
+        # Map numeric input (1-3) to the choice string
         playerChoice = possibleChoices[userInput - 1]
 
         print()
@@ -58,10 +72,13 @@ def playGame():
         print('You chose: ' + playerChoice)
         print()
 
+        # Determine round result and display it
         result = rockPaperScissors(playerChoice, computerChoice)
         print(result)
 
+
 def rockPaperScissors(playerChoice, computerChoice):
+    # Resolve a single round and update global counters
     global draws, computerWins, playerWins
 
     if computerChoice == playerChoice:
@@ -92,7 +109,9 @@ def rockPaperScissors(playerChoice, computerChoice):
             computerWins += 1
             return "Computer wins! Scissors cuts Paper."
 
+
 def gameResults():
+    # Print final game statistics and the overall winner
     print()
     print('Game Results')
     print('------------')
@@ -106,8 +125,10 @@ def gameResults():
     elif computerWins > playerWins:
         print('Computer won the game! Better luck next time.')
     else:
+        # Game-level draw
         print('The game ended in a draw!')
 
         input('\nPress Enter to exit the game...')
+
 
 main()
